@@ -1,0 +1,3 @@
+model,auc,gini,ks,n,bad_rate
+scorecard,0.8335,0.667,0.5284,6250,0.2341
+challenger,0.8411,0.6822,0.5441,6250,0.2341

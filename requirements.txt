@@ -1,0 +1,11 @@
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.4
+scipy>=1.11
+matplotlib>=3.8
+fastapi>=0.110
+uvicorn>=0.29
+
+# Optional extras (not required - the code falls back gracefully if absent)
+# xgboost>=2.0
+# shap>=0.44

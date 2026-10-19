@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Credit Risk Lab</title>
+<style>
+  :root {
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --bg: #f7f9fb;
+    --danger: #ef4444;
+    --warn: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; }
+
+  header { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+  h1 { font-size: 1.55rem; margin: 0; letter-spacing: -0.02em; }
+  h1 span { color: var(--accent); }
+  .sub { color: var(--muted); font-size: 0.86rem; margin-top: 2px; }
+  .metrics { display: flex; flex-wrap: wrap; gap: 10px; }
+  .metric {
+    background: #fff; border: 1px solid var(--line); border-radius: 12px;
+    padding: 10px 14px; min-width: 96px;
+  }
+  .metric b { display: block; font-size: 1.15rem; color: var(--accent-dark); }
+  .metric small { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: #fff; border: 1px solid var(--line); border-radius: 16px;
+    padding: 20px; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    opacity: 0; animation: rise 0.5s ease forwards; animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .panel h2 { font-size: 0.95rem; margin: 0 0 14px; letter-spacing: -0.01em; }
+  .panel h2 .hint { font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+
+  .fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  label { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; text-transform: capitalize; }
+  input, select {
+    width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px;
+    font-size: 0.85rem; font-family: inherit; color: var(--ink); background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(16,185,129,0.14); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  button {
+    font-family: inherit; font-size: 0.85rem; border-radius: 10px; padding: 9px 16px;
+    border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 7px; transition: transform 0.08s, background 0.15s, border-color 0.15s;
+  }
+  button:hover { border-color: #cbd5e1; }
+  button:active { transform: translateY(1px); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  button.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+  svg { width: 15px; height: 15px; flex: none; }
+
+  .empty { color: var(--muted); font-size: 0.85rem; }
+  .badge { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; font-weight: 600; font-size: 0.8rem; }
+  .badge.ok { background: rgba(16,185,129,0.12); color: var(--accent-dark); }
+  .badge.no { background: rgba(239,68,68,0.12); color: var(--danger); }
+  .score-big { font-size: 2.6rem; font-weight: 700; letter-spacing: -0.03em; margin: 10px 0 2px; }
+  .score-big small { font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+
+  .kv { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  .kv:last-child { border-bottom: none; }
+  .kv span:first-child { color: var(--muted); }
+  .kv b { font-variant-numeric: tabular-nums; }
+
+  .bar { height: 10px; border-radius: 999px; background: #eef2f6; position: relative; overflow: hidden; margin: 8px 0 4px; }
+  .bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 999px; transition: width 0.45s ease; }
+  .bar.danger i { background: var(--danger); }
+  .marker { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); opacity: 0.55; }
+
+  .reasons { margin-top: 14px; }
+  .reason { display: grid; grid-template-columns: 1fr 64px; gap: 4px 10px; align-items: center; margin-bottom: 9px; }
+  .reason div { font-size: 0.79rem; }
+  .reason .desc { color: var(--ink); }
+  .reason .feat { color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .reason .pts { text-align: right; font-variant-numeric: tabular-nums; font-size: 0.8rem; font-weight: 600; color: var(--danger); }
+  .rbar { grid-column: 1 / -1; height: 5px; border-radius: 999px; background: #eef2f6; overflow: hidden; }
+  .rbar i { display: block; height: 100%; background: var(--danger); border-radius: 999px; }
+
+  .charts { margin-top: 30px; }
+  .charts h2 { font-size: 1.05rem; margin: 0 0 14px; }
+  .chart-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  figure { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  figure img { width: 100%; display: block; background: #fff; }
+  figcaption { padding: 9px 12px; font-size: 0.76rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+  .iv-list { font-size: 0.8rem; }
+  .iv-row { display: grid; grid-template-columns: 1fr 56px; gap: 8px; align-items: center; padding: 4px 0; }
+  .iv-row .track { grid-column: 1 / -1; height: 5px; background: #eef2f6; border-radius: 999px; overflow: hidden; }
+  .iv-row .track i { display: block; height: 100%; background: var(--accent); }
+  .err { background: rgba(239,68,68,0.08); color: var(--danger); padding: 12px 14px; border-radius: 10px; font-size: 0.83rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Credit Risk <span>Lab</span></h1>
+      <div class="sub" id="source-line">loading model…</div>
+    </div>
+    <div class="metrics" id="metrics"></div>
+  </header>
+
+  <div class="grid">
+    <section class="panel" style="--i:0">
+      <h2>Applicant details <span class="hint">— edit or load an example</span></h2>
+      <form id="form" class="fields" onsubmit="return false"></form>
+      <div class="actions">
+        <button class="primary" id="score-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>
+          Score applicant
+        </button>
+        <button id="example-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg>
+          Random example
+        </button>
+        <button id="reset-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          Reset
+        </button>
+      </div>
+    </section>
+
+    <section class="panel" id="result" style="--i:1">
+      <h2>Decision</h2>
+      <div class="empty">Score an applicant to see the PD, score, decision and adverse-action reason codes.</div>
+    </section>
+  </div>
+
+  <section class="panel charts" style="--i:2; margin-top: 18px;">
+    <h2>Top risk drivers <span class="hint">— Information Value (0.02 useless → 0.5 strong)</span></h2>
+    <div class="iv-list" id="iv-list"></div>
+  </section>
+
+  <section class="charts">
+    <h2>Validation report</h2>
+    <div class="chart-grid" id="chart-grid"></div>
+  </section>
+</div>
+
+<script>
+const CAPTIONS = {
+  score_distribution: "Scorecard score distribution — good vs bad separation",
+  roc: "ROC curves — scorecard vs challenger",
+  ks: "Kolmogorov-Smirnov — maximum separation of good/bad",
+  gains: "Cumulative gains — how fast defaults are captured",
+  calibration: "Calibration — predicted PD vs observed default rate",
+  psi: "Population Stability Index — train vs out-of-time",
+  iv: "Information Value by feature",
+  importance: "Challenger permutation importance",
+  cutoff: "Cut-off trade-off — approval rate vs bad rate",
+  profit: "Profit vs cut-off",
+};
+
+const LABELS = {
+  annual_income: "Annual income", loan_amount: "Loan amount", loan_term_months: "Term (months)",
+  interest_rate: "Interest rate %", fico_score: "FICO score", revolving_utilization: "Revolving utilisation",
+  delinquencies_2yrs: "Delinquencies (2y)", inquiries_6m: "Inquiries (6m)", num_open_accounts: "Open accounts",
+  credit_history_months: "Credit history (months)", loan_to_income: "Loan-to-income",
+  months_since_last_delinquency: "Months since last delinquency", home_ownership: "Home ownership",
+  income_verified: "Income verified", employment_years: "Employment (years)",
+};
+
+let META = null;
+
+function pretty(name) {
+  return LABELS[name] || name.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+function fmt(v, digits = 2) {
+  if (v === null || v === undefined || v === "") return "—";
+  return Number(v).toLocaleString(undefined, { maximumFractionDigits: digits });
+}
+function pct(v) { return (v * 100).toFixed(1) + "%"; }
+
+function iconSpan(kind) {
+  if (kind === "ok") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>';
+  if (kind === "no") return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>';
+  return "";
+}
+
+async function loadMeta() {
+  const res = await fetch("/api/meta");
+  if (!res.ok) { document.getElementById("source-line").textContent = "Model not trained yet — run:  python run.py --retrain"; return; }
+  const data = await res.json();
+  META = data.meta;
+
+  document.getElementById("source-line").textContent =
+    `${META.features.length} variables · data: ${META.source} · train bad rate ${pct(META.train_bad_rate)} · break-even PD ${pct(META.breakeven_pd)}`;
+
+  const sc = META.scorecard_metrics, ch = META.challenger_metrics;
+  document.getElementById("metrics").innerHTML = [
+    ["Gini (sc)", sc.gini.toFixed(3)],
+    ["Gini (ch)", ch.gini.toFixed(3)],
+    ["KS (sc)", sc.ks.toFixed(3)],
+    ["PSI", META.psi.toFixed(3)],
+  ].map(([k, v]) => `<div class="metric"><b>${v}</b><small>${k}</small></div>`).join("");
+
+  buildForm();
+  renderIv(META.report ? META.report.top_iv : []);
+  renderCharts(data.figures);
+}
+
+function buildForm() {
+  const form = document.getElementById("form");
+  form.innerHTML = "";
+  for (const feat of META.features) {
+    const wrap = document.createElement("div");
+    const label = document.createElement("label");
+    label.textContent = pretty(feat);
+    label.htmlFor = feat;
+    let input;
+    if (META.categorical_features.includes(feat)) {
+      input = document.createElement("select");
+      const opts = META.category_options[feat] || [];
+      for (const o of opts) {
+        const option = document.createElement("option");
+        option.value = o; option.textContent = o;
+        input.appendChild(option);
+      }
+    } else {
+      input = document.createElement("input");
+      input.type = "number"; input.step = "any";
+    }
+    input.id = feat; input.name = feat;
+    wrap.appendChild(label); wrap.appendChild(input);
+    form.appendChild(wrap);
+  }
+}
+
+function fillForm(values) {
+  for (const feat of META.features) {
+    const el = document.getElementById(feat);
+    if (!el) continue;
+    let v = values[feat];
+    if (v === null || v === undefined) v = "";
+    el.value = typeof v === "number" ? Math.round(v * 10000) / 10000 : v;
+  }
+}
+
+function readForm() {
+  const payload = {};
+  for (const feat of META.features) {
+    const el = document.getElementById(feat);
+    payload[feat] = el ? el.value : null;
+  }
+  return payload;
+}
+
+async function loadExample() {
+  const res = await fetch("/api/example");
+  if (res.ok) fillForm(await res.json());
+}
+
+function renderResult(r) {
+  const band = r.decision === "APPROVE" ? "ok" : "no";
+  const pdWidth = Math.min(r.scorecard_pd / 0.5, 1) * 100;
+  const bePos = Math.min(r.breakeven_pd / 0.5, 1) * 100;
+
+  const reasons = r.reason_codes.map(x => {
+    const maxPts = Math.max(...r.reason_codes.map(y => Math.abs(y.points)), 1);
+    const w = Math.min(Math.abs(x.points) / maxPts, 1) * 100;
+    const pts = (x.points > 0 ? "+" : "") + x.points.toFixed(1);
+    return `<div class="reason">
+      <div><div class="desc">${x.description}</div><div class="feat">${pretty(x.feature)} · WoE ${x.woe}</div></div>
+      <div class="pts">${pts}</div>
+      <div class="rbar"><i style="width:${w}%"></i></div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("result").innerHTML = `
+    <h2>Decision</h2>
+    <span class="badge ${band}">${iconSpan(band)}${r.decision}</span>
+    <div class="score-big">${fmt(r.score, 0)} <small>points · risk band: ${r.risk_band}</small></div>
+
+    <div class="kv"><span>Scorecard PD</span><b>${pct(r.scorecard_pd)}</b></div>
+    <div class="bar ${r.decision === "DECLINE" ? "danger" : ""}">
+      <i style="width:${pdWidth}%"></i><span class="marker" style="left:${bePos}%"></span>
+    </div>
+    <div class="kv" style="border:none;padding-top:0">
+      <span style="font-size:0.72rem">break-even PD ${pct(r.breakeven_pd)}</span>
+      <span style="font-size:0.72rem">profit-max cut-off ${pct(r.optimal_cutoff_pd)}</span>
+    </div>
+
+    <div class="kv"><span>Challenger PD</span><b>${pct(r.challenger_pd)}</b></div>
+    <div class="kv"><span>Score-implied PD (check)</span><b>${pct(r.score_implied_pd)}</b></div>
+    <div class="kv"><span>Expected loss</span><b>${fmt(r.expected_loss, 0)}</b></div>
+    <div class="kv"><span>Expected profit</span><b>${fmt(r.expected_profit, 0)}</b></div>
+
+    <div class="reasons">
+      <div class="feat" style="margin-bottom:8px">Adverse-action reason codes (worst first)</div>
+      ${reasons}
+    </div>`;
+}
+
+function renderIv(rows) {
+  if (!rows || !rows.length) return;
+  const max = Math.max(...rows.map(r => r.iv), 0.001);
+  document.getElementById("iv-list").innerHTML = rows.slice(0, 10).map(r => `
+    <div class="iv-row">
+      <span>${pretty(r.feature)}</span><b style="text-align:right">${r.iv.toFixed(3)}</b>
+      <div class="track"><i style="width:${(r.iv / max) * 100}%"></i></div>
+    </div>`).join("");
+}
+
+function renderCharts(figures) {
+  const grid = document.getElementById("chart-grid");
+  grid.innerHTML = Object.entries(figures).map(([key, url]) => `
+    <figure><img loading="lazy" src="${url}" alt="${key}" />
+    <figcaption>${CAPTIONS[key] || key}</figcaption></figure>`).join("");
+}
+
+async function submit() {
+  const res = await fetch("/api/score", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(readForm()),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: "Scoring failed" }));
+    document.getElementById("result").innerHTML = `<h2>Decision</h2><div class="err">${err.detail}</div>`;
+    return;
+  }
+  renderResult(await res.json());
+}
+
+document.getElementById("score-btn").addEventListener("click", submit);
+document.getElementById("example-btn").addEventListener("click", loadExample);
+document.getElementById("reset-btn").addEventListener("click", () => fillForm({}));
+
+loadMeta().then(loadExample);
+</script>
+</body>
+</html>

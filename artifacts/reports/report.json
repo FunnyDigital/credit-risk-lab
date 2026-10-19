@@ -1,0 +1,720 @@
+{
+  "meta": {
+    "source": "synthetic",
+    "features": [
+      "age",
+      "annual_income",
+      "employment_years",
+      "loan_amount",
+      "loan_term_months",
+      "interest_rate",
+      "installment",
+      "dti",
+      "fico_score",
+      "revolving_utilization",
+      "delinquencies_2yrs",
+      "inquiries_6m",
+      "num_open_accounts",
+      "credit_history_months",
+      "loan_to_income",
+      "months_since_last_delinquency",
+      "home_ownership",
+      "purpose",
+      "grade",
+      "income_verified"
+    ],
+    "target": "default",
+    "numeric_features": [
+      "age",
+      "annual_income",
+      "employment_years",
+      "loan_amount",
+      "loan_term_months",
+      "interest_rate",
+      "installment",
+      "dti",
+      "fico_score",
+      "revolving_utilization",
+      "delinquencies_2yrs",
+      "inquiries_6m",
+      "num_open_accounts",
+      "credit_history_months",
+      "loan_to_income",
+      "months_since_last_delinquency"
+    ],
+    "categorical_features": [
+      "home_ownership",
+      "purpose",
+      "grade",
+      "income_verified"
+    ],
+    "category_options": {
+      "home_ownership": [
+        "MORTGAGE",
+        "OWN",
+        "RENT"
+      ],
+      "purpose": [
+        "car",
+        "credit_card",
+        "debt_consolidation",
+        "home_improvement",
+        "medical",
+        "small_business"
+      ],
+      "grade": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "income_verified": [
+        "No",
+        "Yes"
+      ]
+    },
+    "base_score": 600,
+    "base_odds": 20.0,
+    "pdo": 40,
+    "lgd": 0.65,
+    "margin_rate": 0.12,
+    "default_cutoff_pd": 0.2,
+    "breakeven_pd": 0.1558,
+    "optimal_cutoff_pd": 0.107,
+    "train_bad_rate": 0.1549,
+    "oot_bad_rate": 0.2341,
+    "psi": 0.1455,
+    "scorecard_metrics": {
+      "model": "scorecard",
+      "auc": 0.8335,
+      "gini": 0.667,
+      "ks": 0.5284,
+      "n": 6250,
+      "bad_rate": 0.2341
+    },
+    "challenger_metrics": {
+      "model": "challenger",
+      "auc": 0.8411,
+      "gini": 0.6822,
+      "ks": 0.5441,
+      "n": 6250,
+      "bad_rate": 0.2341
+    }
+  },
+  "scorecard_valid": {
+    "model": "scorecard",
+    "auc": 0.8212,
+    "gini": 0.6425,
+    "ks": 0.4921,
+    "n": 5000,
+    "bad_rate": 0.16
+  },
+  "challenger_valid": {
+    "model": "challenger",
+    "auc": 0.8282,
+    "gini": 0.6563,
+    "ks": 0.5154,
+    "n": 5000,
+    "bad_rate": 0.16
+  },
+  "scorecard_oot": {
+    "model": "scorecard",
+    "auc": 0.8335,
+    "gini": 0.667,
+    "ks": 0.5284,
+    "n": 6250,
+    "bad_rate": 0.2341
+  },
+  "challenger_oot": {
+    "model": "challenger",
+    "auc": 0.8411,
+    "gini": 0.6822,
+    "ks": 0.5441,
+    "n": 6250,
+    "bad_rate": 0.2341
+  },
+  "psi": {
+    "value": 0.1455,
+    "band": "monitor"
+  },
+  "calibration": [
+    {
+      "n": 625,
+      "predicted_pd": 0.012858908178721092,
+      "observed_pd": 0.0304,
+      "gap": -0.017541091821278908
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.02724071176345723,
+      "observed_pd": 0.0384,
+      "gap": -0.011159288236542768
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.04256821888172013,
+      "observed_pd": 0.0528,
+      "gap": -0.010231781118279867
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.06196869901414696,
+      "observed_pd": 0.088,
+      "gap": -0.02603130098585303
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.08808382777383265,
+      "observed_pd": 0.0944,
+      "gap": -0.006316172226167344
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.1297549940137101,
+      "observed_pd": 0.1664,
+      "gap": -0.03664500598628989
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.19967873853763873,
+      "observed_pd": 0.2272,
+      "gap": -0.02752126146236128
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.33498037229643957,
+      "observed_pd": 0.3344,
+      "gap": 0.0005803722964395908
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.5383323118541395,
+      "observed_pd": 0.5344,
+      "gap": 0.0039323118541395585
+    },
+    {
+      "n": 625,
+      "predicted_pd": 0.7979239847256244,
+      "observed_pd": 0.7744,
+      "gap": 0.023523984725624447
+    }
+  ],
+  "deciles": [
+    {
+      "decile": 1,
+      "n": 625,
+      "bad": 484,
+      "bad_rate": 0.7744,
+      "avg_pd": 0.7979239847256244,
+      "cum_bad": 484,
+      "cum_pop_share": 0.1,
+      "cum_bad_share": 0.3308270676691729,
+      "lift": 3.308270676691729,
+      "cum_lift": 3.308270676691729
+    },
+    {
+      "decile": 2,
+      "n": 625,
+      "bad": 334,
+      "bad_rate": 0.5344,
+      "avg_pd": 0.5383323118541395,
+      "cum_bad": 818,
+      "cum_pop_share": 0.2,
+      "cum_bad_share": 0.5591250854408749,
+      "lift": 2.2829801777170196,
+      "cum_lift": 2.7956254272043743
+    },
+    {
+      "decile": 3,
+      "n": 625,
+      "bad": 209,
+      "bad_rate": 0.3344,
+      "avg_pd": 0.33498037229643957,
+      "cum_bad": 1027,
+      "cum_pop_share": 0.3,
+      "cum_bad_share": 0.7019822282980178,
+      "lift": 1.4285714285714284,
+      "cum_lift": 2.3399407609933927
+    },
+    {
+      "decile": 4,
+      "n": 625,
+      "bad": 142,
+      "bad_rate": 0.2272,
+      "avg_pd": 0.19967873853763873,
+      "cum_bad": 1169,
+      "cum_pop_share": 0.4,
+      "cum_bad_share": 0.7990430622009569,
+      "lift": 0.9706083390293917,
+      "cum_lift": 1.997607655502392
+    },
+    {
+      "decile": 5,
+      "n": 625,
+      "bad": 104,
+      "bad_rate": 0.1664,
+      "avg_pd": 0.1297549940137101,
+      "cum_bad": 1273,
+      "cum_pop_share": 0.5,
+      "cum_bad_share": 0.8701298701298701,
+      "lift": 0.7108680792891319,
+      "cum_lift": 1.7402597402597402
+    },
+    {
+      "decile": 6,
+      "n": 625,
+      "bad": 59,
+      "bad_rate": 0.0944,
+      "avg_pd": 0.08808382777383265,
+      "cum_bad": 1332,
+      "cum_pop_share": 0.6,
+      "cum_bad_share": 0.9104579630895421,
+      "lift": 0.403280929596719,
+      "cum_lift": 1.5174299384825702
+    },
+    {
+      "decile": 7,
+      "n": 625,
+      "bad": 55,
+      "bad_rate": 0.088,
+      "avg_pd": 0.06196869901414696,
+      "cum_bad": 1387,
+      "cum_pop_share": 0.7,
+      "cum_bad_share": 0.948051948051948,
+      "lift": 0.37593984962406013,
+      "cum_lift": 1.3543599257884973
+    },
+    {
+      "decile": 8,
+      "n": 625,
+      "bad": 33,
+      "bad_rate": 0.0528,
+      "avg_pd": 0.04256821888172013,
+      "cum_bad": 1420,
+      "cum_pop_share": 0.8,
+      "cum_bad_share": 0.9706083390293917,
+      "lift": 0.22556390977443608,
+      "cum_lift": 1.2132604237867395
+    },
+    {
+      "decile": 9,
+      "n": 625,
+      "bad": 24,
+      "bad_rate": 0.0384,
+      "avg_pd": 0.02724071176345723,
+      "cum_bad": 1444,
+      "cum_pop_share": 0.9,
+      "cum_bad_share": 0.987012987012987,
+      "lift": 0.1640464798359535,
+      "cum_lift": 1.0966810966810967
+    },
+    {
+      "decile": 10,
+      "n": 625,
+      "bad": 19,
+      "bad_rate": 0.0304,
+      "avg_pd": 0.012858908178721092,
+      "cum_bad": 1463,
+      "cum_pop_share": 1.0,
+      "cum_bad_share": 1.0,
+      "lift": 0.12987012987012986,
+      "cum_lift": 1.0
+    }
+  ],
+  "cutoff": [
+    {
+      "cutoff_pd": 0.02,
+      "approval_rate": 0.09616,
+      "approved_bad_rate": 0.03161397670549085,
+      "expected_profit": 66.30407021989298,
+      "realized_profit": 57.49,
+      "expected_loss": 4.909551113077354
+    },
+    {
+      "cutoff_pd": 0.063,
+      "approval_rate": 0.35488,
+      "approved_bad_rate": 0.047790802524797116,
+      "expected_profit": 211.3130506240974,
+      "realized_profit": 184.54,
+      "expected_loss": 46.2993728497879
+    },
+    {
+      "cutoff_pd": 0.107,
+      "approval_rate": 0.50208,
+      "approved_bad_rate": 0.06118546845124283,
+      "expected_profit": 263.49763948028146,
+      "realized_profit": 228.72000000000008,
+      "expected_loss": 95.44225238677535
+    },
+    {
+      "cutoff_pd": 0.15,
+      "approval_rate": 0.5904,
+      "approved_bad_rate": 0.07615176151761517,
+      "expected_profit": 275.458676073269,
+      "realized_profit": 226.43000000000015,
+      "expected_loss": 141.26215656152618
+    },
+    {
+      "cutoff_pd": 0.193,
+      "approval_rate": 0.64656,
+      "approved_bad_rate": 0.08413758970551843,
+      "expected_profit": 271.2785925948542,
+      "realized_profit": 223.12000000000018,
+      "expected_loss": 180.34664261473347
+    },
+    {
+      "cutoff_pd": 0.237,
+      "approval_rate": 0.68592,
+      "approved_bad_rate": 0.09563797527408444,
+      "expected_profit": 260.5435720282654,
+      "realized_profit": 198.74,
+      "expected_loss": 214.32815348263313
+    },
+    {
+      "cutoff_pd": 0.28,
+      "approval_rate": 0.71536,
+      "approved_bad_rate": 0.10355625139789756,
+      "expected_profit": 246.3251798344225,
+      "realized_profit": 180.00999999999993,
+      "expected_loss": 244.96965338652643
+    },
+    {
+      "cutoff_pd": 0.323,
+      "approval_rate": 0.74432,
+      "approved_bad_rate": 0.11199484092863285,
+      "expected_profit": 225.79066076443786,
+      "realized_profit": 157.07,
+      "expected_loss": 280.6390526014485
+    },
+    {
+      "cutoff_pd": 0.367,
+      "approval_rate": 0.76912,
+      "approved_bad_rate": 0.11940919492406907,
+      "expected_profit": 203.10774959910006,
+      "realized_profit": 134.85999999999996,
+      "expected_loss": 315.488263325435
+    },
+    {
+      "cutoff_pd": 0.41,
+      "approval_rate": 0.79648,
+      "approved_bad_rate": 0.12876657292085175,
+      "expected_profit": 172.60896344666435,
+      "realized_profit": 103.79000000000008,
+      "expected_loss": 358.5560698177509
+    },
+    {
+      "cutoff_pd": 0.453,
+      "approval_rate": 0.81472,
+      "approved_bad_rate": 0.13531029065200315,
+      "expected_profit": 148.44152172705088,
+      "realized_profit": 80.50999999999999,
+      "expected_loss": 390.5052089317103
+    },
+    {
+      "cutoff_pd": 0.497,
+      "approval_rate": 0.83088,
+      "approved_bad_rate": 0.14230695166570384,
+      "expected_profit": 123.66391821023853,
+      "realized_profit": 54.129999999999995,
+      "expected_loss": 421.6525365757726
+    },
+    {
+      "cutoff_pd": 0.54,
+      "approval_rate": 0.85152,
+      "approved_bad_rate": 0.1516347237880496,
+      "expected_profit": 87.51857757714151,
+      "realized_profit": 17.25,
+      "expected_loss": 465.2323695777377
+    },
+    {
+      "cutoff_pd": 0.583,
+      "approval_rate": 0.86992,
+      "approved_bad_rate": 0.1581754644105205,
+      "expected_profit": 51.61485606190317,
+      "realized_profit": -9.759999999999991,
+      "expected_loss": 507.19005657112064
+    },
+    {
+      "cutoff_pd": 0.627,
+      "approval_rate": 0.88864,
+      "approved_bad_rate": 0.16798703637018364,
+      "expected_profit": 10.94317273207254,
+      "realized_profit": -51.92999999999995,
+      "expected_loss": 553.375243797601
+    },
+    {
+      "cutoff_pd": 0.67,
+      "approval_rate": 0.90384,
+      "approved_bad_rate": 0.17560630200035404,
+      "expected_profit": -25.19391163602596,
+      "realized_profit": -85.95999999999992,
+      "expected_loss": 593.5039513810609
+    },
+    {
+      "cutoff_pd": 0.713,
+      "approval_rate": 0.91776,
+      "approved_bad_rate": 0.18322873082287308,
+      "expected_profit": -61.17498518919089,
+      "realized_profit": -120.95000000000005,
+      "expected_loss": 632.6905719129533
+    },
+    {
+      "cutoff_pd": 0.757,
+      "approval_rate": 0.93568,
+      "approved_bad_rate": 0.19322845417236661,
+      "expected_profit": -110.98518299628314,
+      "realized_profit": -168.33999999999992,
+      "expected_loss": 686.0835960358233
+    },
+    {
+      "cutoff_pd": 0.8,
+      "approval_rate": 0.95216,
+      "approved_bad_rate": 0.20265501596370358,
+      "expected_profit": -160.42968538897122,
+      "realized_profit": -214.5,
+      "expected_loss": 738.256227925755
+    }
+  ],
+  "top_iv": [
+    {
+      "feature": "interest_rate",
+      "iv": 0.6176478076180192,
+      "strength": "suspicious"
+    },
+    {
+      "feature": "grade",
+      "iv": 0.5167696296044054,
+      "strength": "suspicious"
+    },
+    {
+      "feature": "fico_score",
+      "iv": 0.4994665436281828,
+      "strength": "strong"
+    },
+    {
+      "feature": "revolving_utilization",
+      "iv": 0.4223856629866059,
+      "strength": "strong"
+    },
+    {
+      "feature": "income_verified",
+      "iv": 0.1356487910043784,
+      "strength": "medium"
+    },
+    {
+      "feature": "loan_to_income",
+      "iv": 0.13355537647919907,
+      "strength": "medium"
+    },
+    {
+      "feature": "delinquencies_2yrs",
+      "iv": 0.12838351236537116,
+      "strength": "medium"
+    },
+    {
+      "feature": "months_since_last_delinquency",
+      "iv": 0.12575974863785677,
+      "strength": "medium"
+    },
+    {
+      "feature": "dti",
+      "iv": 0.11207847579452669,
+      "strength": "medium"
+    },
+    {
+      "feature": "installment",
+      "iv": 0.07620567923073264,
+      "strength": "weak"
+    }
+  ],
+  "top_importance": [
+    {
+      "feature": "revolving_utilization",
+      "importance": 0.07638023809523793,
+      "std": 0.0018208338645525825
+    },
+    {
+      "feature": "interest_rate",
+      "importance": 0.05222374999999988,
+      "std": 0.0037128780977058475
+    },
+    {
+      "feature": "loan_to_income",
+      "importance": 0.0303783928571427,
+      "std": 0.0014670554838861311
+    },
+    {
+      "feature": "income_verified_No",
+      "importance": 0.029914642857142647,
+      "std": 0.002166967203449944
+    },
+    {
+      "feature": "dti",
+      "importance": 0.026281666666666557,
+      "std": 0.0021005123062472564
+    },
+    {
+      "feature": "months_since_last_delinquency",
+      "importance": 0.01650952380952366,
+      "std": 0.001246741373289076
+    },
+    {
+      "feature": "fico_score",
+      "importance": 0.015191726190475995,
+      "std": 0.0021507169874464163
+    },
+    {
+      "feature": "delinquencies_2yrs",
+      "importance": 0.004015178571428457,
+      "std": 0.0008721130703544018
+    },
+    {
+      "feature": "loan_amount",
+      "importance": 0.002578392857142675,
+      "std": 0.0007241477074540673
+    },
+    {
+      "feature": "home_ownership_RENT",
+      "importance": 0.0018387499999998225,
+      "std": 0.0017696401482368116
+    }
+  ],
+  "top_shap": null,
+  "card_summary": [
+    {
+      "feature": "revolving_utilization",
+      "min_points": -72.28969493008864,
+      "max_points": 53.25746824354765,
+      "swing": 125.54716317363629
+    },
+    {
+      "feature": "grade",
+      "min_points": -59.18153579438468,
+      "max_points": 43.251894170240945,
+      "swing": 102.43342996462562
+    },
+    {
+      "feature": "dti",
+      "min_points": -39.98255160804777,
+      "max_points": 47.87153940620313,
+      "swing": 87.8540910142509
+    },
+    {
+      "feature": "loan_to_income",
+      "min_points": -42.78944942325155,
+      "max_points": 35.20636680283016,
+      "swing": 77.9958162260817
+    },
+    {
+      "feature": "income_verified",
+      "min_points": -21.27221120237041,
+      "max_points": 35.37013744833363,
+      "swing": 56.64234865070404
+    },
+    {
+      "feature": "delinquencies_2yrs",
+      "min_points": -36.427363372013154,
+      "max_points": 12.377691530476225,
+      "swing": 48.80505490248938
+    },
+    {
+      "feature": "purpose",
+      "min_points": -24.19348452164439,
+      "max_points": 15.606429198115233,
+      "swing": 39.79991371975962
+    },
+    {
+      "feature": "home_ownership",
+      "min_points": -15.799803197685105,
+      "max_points": 21.208309090234632,
+      "swing": 37.00811228791974
+    },
+    {
+      "feature": "interest_rate",
+      "min_points": -19.309738176213695,
+      "max_points": 15.935348821948365,
+      "swing": 35.24508699816206
+    },
+    {
+      "feature": "fico_score",
+      "min_points": -13.642813999359106,
+      "max_points": 10.813214281724806,
+      "swing": 24.45602828108391
+    },
+    {
+      "feature": "months_since_last_delinquency",
+      "min_points": -16.057845690089174,
+      "max_points": 6.963748198076008,
+      "swing": 23.02159388816518
+    },
+    {
+      "feature": "employment_years",
+      "min_points": -7.620308498309279,
+      "max_points": 14.862069110513774,
+      "swing": 22.482377608823054
+    },
+    {
+      "feature": "credit_history_months",
+      "min_points": -5.4716399192141285,
+      "max_points": 10.964323957686885,
+      "swing": 16.435963876901013
+    },
+    {
+      "feature": "inquiries_6m",
+      "min_points": -8.046278048152146,
+      "max_points": 3.0895854226208788,
+      "swing": 11.135863470773025
+    },
+    {
+      "feature": "annual_income",
+      "min_points": -3.8836497883611862,
+      "max_points": 6.577973430760315,
+      "swing": 10.4616232191215
+    },
+    {
+      "feature": "age",
+      "min_points": -3.213943175419476,
+      "max_points": 6.398871439901924,
+      "swing": 9.612814615321401
+    },
+    {
+      "feature": "installment",
+      "min_points": -4.3061969669411155,
+      "max_points": 4.780074818568163,
+      "swing": 9.086271785509279
+    },
+    {
+      "feature": "loan_amount",
+      "min_points": -3.174833642902976,
+      "max_points": 1.943909155333515,
+      "swing": 5.118742798236491
+    },
+    {
+      "feature": "num_open_accounts",
+      "min_points": -1.3199561890546248,
+      "max_points": 1.698726320317474,
+      "swing": 3.018682509372099
+    },
+    {
+      "feature": "loan_term_months",
+      "min_points": -0.5415283047334677,
+      "max_points": 0.3346973480396446,
+      "swing": 0.8762256527731123
+    }
+  ],
+  "figures": {
+    "score_distribution": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\score_distribution.png",
+    "roc": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\roc_curves.png",
+    "ks": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\ks_plot.png",
+    "gains": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\gains_chart.png",
+    "calibration": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\calibration.png",
+    "psi": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\psi_score.png",
+    "iv": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\iv.png",
+    "importance": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\importance.png",
+    "cutoff": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\cutoff_tradeoff.png",
+    "profit": "C:\\Users\\PATRICK ISOLOKWU\\credit-risk-lab\\artifacts\\figures\\profit_curve.png"
+  }
+}
